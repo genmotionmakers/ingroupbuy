@@ -13,7 +13,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     void _onItemTapped(int index) {
       setState(() {
         _selectedIndex = index;
-//        navigateToScreens(index);
+     //  navigateToScreens(index);
       });
     }
 
@@ -44,7 +44,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
         BottomNavigationBarItem(
           icon: Icon(FontAwesomeIcons.user),
           title: Text(
-            'Account',
+            'Account, Providers',
             style: TextStyle(color: Color(0xFF2c2b2b)),
           ),
         ),

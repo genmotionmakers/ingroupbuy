@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prohumanhacks/animations/ScaleRoute.dart';
 import 'package:prohumanhacks/widgets/BottomNavBarWidget.dart';
 import 'package:prohumanhacks/widgets/SearchWidget.dart';
+import 'package:prohumanhacks/widgets/ShoppingList.dart';
 
 import 'SignInPage.dart';
 
@@ -12,8 +13,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  @override
-  Widget build(BuildContext context) {
     @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -42,6 +41,9 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
             // Too add widgets
               SearchWidget(),
+              ShoppingList(),
+              ShoppingList(),
+              ShoppingList()
             ],
           ),
         ),
@@ -50,4 +52,3 @@ class _HomePageState extends State<HomePage> {
     }
 
   }
-}

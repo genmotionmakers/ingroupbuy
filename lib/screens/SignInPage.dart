@@ -49,7 +49,7 @@ class _SignInPageState extends State<SignInPage> {
                     height: 100,
                     alignment: Alignment.center,
                     child: Image.asset(
-                      "assets/images/menus/ic_food_express.png",
+                      "assets/images/placeholder.jpg",
                     ),
                   ),
                   SizedBox(
