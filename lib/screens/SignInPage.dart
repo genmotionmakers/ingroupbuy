@@ -186,6 +186,7 @@ class _SignInPageState extends State<SignInPage> {
 }
 
 class SignInButtonWidget extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Container(

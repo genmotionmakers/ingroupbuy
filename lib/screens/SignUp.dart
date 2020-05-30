@@ -13,7 +13,7 @@ class SignUpPage extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(left: 15, right: 15, top: 35, bottom: 30),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 35, bottom: 30),
         width: double.infinity,
         height: double.infinity,
         color: Colors.white70,
@@ -43,7 +43,7 @@ class SignUpPage extends StatelessWidget {
                     height: 100,
                     alignment: Alignment.center,
                     child: Image.asset(
-                      "assets/images/menus/ic_food_express.png",
+                      "assets/images/placeholder.jpg",
                     ),
                   ),
                   SizedBox(
