@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:prohumanhacks/animations/ScaleRoute.dart';
 import 'package:prohumanhacks/widgets/BottomNavBarWidget.dart';
+import 'package:prohumanhacks/widgets/SearchWidget.dart';
+
+import 'SignInPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,7 +21,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Color(0xFFFAFAFA),
           elevation: 0,
           title: Text(
-            "What would you like to eat?",
+            "You Buy we help",
             style: TextStyle(
                 color: Color(0xFF3a3737),
                 fontSize: 16,
@@ -29,13 +33,15 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(
                   Icons.notifications_none,
                   color: Color(0xFF3a3737),
-                ))
-          ],
+                ),onPressed: () {Navigator.push(context, ScaleRoute(page: SignInPage()));})
+
+      ],
         ),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-// Too add widgets
+            // Too add widgets
+              SearchWidget(),
             ],
           ),
         ),
