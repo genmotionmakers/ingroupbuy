@@ -23,8 +23,8 @@ class _GroupsProvidersList extends State<GroupsProvidersList> {
                     backgroundColor: Color(0xFFf7418c),
                     bottom: TabBar(
                       tabs: [
-                        Tab(icon: Icon(Icons.directions_car)),
-                        Tab(icon: Icon(Icons.directions_transit)),
+                        Tab(icon: Icon(Icons.my_location)),
+                        Tab(icon: Icon(Icons.card_giftcard)),
                       ],
                     ),
                     title: InkWell(
@@ -39,35 +39,34 @@ class _GroupsProvidersList extends State<GroupsProvidersList> {
                       },
                     )),
                 body: TabBarView(children: [
-                  Row(
-                    children: <Widget>[
-                      Flexible(
-                        flex: 1,
-                        child: TextField(
-                          showCursor: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                              borderSide: BorderSide(
-                                width: 5,
-                                style: BorderStyle.none,
+                      Column(
+                        children: <Widget>[
+                              TextField(
+                                showCursor: true,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
+                                    borderSide: BorderSide(
+                                      width: 5,
+                                      style: BorderStyle.none,
+                                    ),
+                                  ),
+                                  filled: true,
+                                  fillColor: Color(0xFFF2F3F5),
+                                  hintStyle: TextStyle(
+                                    color: Color(0xFF666666),
+                                    fontFamily: defaultFontFamily,
+                                    fontSize: defaultFontSize,
+                                  ),
+                                  hintText: "Distance KM",
+                                ),
                               ),
-                            ),
-                            filled: true,
-                            fillColor: Color(0xFFF2F3F5),
-                            hintStyle: TextStyle(
-                              color: Color(0xFF666666),
-                              fontFamily: defaultFontFamily,
-                              fontSize: defaultFontSize,
-                            ),
-                            hintText: "Distance KM",
-                          ),
-                        ),
+
+
+                        ],
                       ),
-                    ],
-                  ),
-                  Container()
+                  Container(height: 0,width: 0,)
                 ]))));
   }
 }
