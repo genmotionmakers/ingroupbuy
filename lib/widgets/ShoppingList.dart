@@ -9,11 +9,13 @@ class _ShoppingListState extends State<ShoppingList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: 150,
+      width: 600,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
           ShoppingListTiles(name: "Pasta", imageUrl: "ic_pasta", slug: ""),
+          ShoppingListTiles(name: "Arroz", imageUrl: "ic_arroz", slug: ""),
           ShoppingListTiles(name: "Arroz", imageUrl: "ic_arroz", slug: ""),
         ],
       ),
@@ -57,14 +59,23 @@ class ShoppingListTiles extends StatelessWidget {
                   ),
                 ),
                 child: Container(
-                  width: 50,
-                  height: 50,
-                  child: Center(
-                      child: Image.asset(
-                        'assets/images/shoplist/' + imageUrl + ".jpg",
-                        width: 24,
-                        height: 24,
-                      )),
+                  width: 100,
+                  height: 100,
+                  child: Column(
+                    children: <Widget>[
+                      Center(
+                          child: Image.asset(
+                            'assets/images/shoplist/' + imageUrl + ".jpg",
+                            width: 100,
+                            height: 70,
+                          )),
+                      Center(
+                        child: Image.asset('assets/images/start.png',
+                        width: 50,
+                        height: 30,)
+                      )
+
+                    ]),
                 )),
           ),
           Text(name,

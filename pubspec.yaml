@@ -51,6 +51,7 @@ flutter:
     - assets/images/shoplist/ic_arroz.jpg
     - assets/images/shoplist/ic_pasta.jpg
     - assets/images/placeholder.jpg
+    - assets/images/start.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

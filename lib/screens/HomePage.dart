@@ -17,14 +17,18 @@ class _HomePageState extends State<HomePage> {
     Widget build(BuildContext context) {
       return Scaffold(
         appBar: AppBar(
+
           backgroundColor: Color(0xFFFAFAFA),
           elevation: 0,
-          title: Text(
-            "You Buy we help",
-            style: TextStyle(
-                color: Color(0xFF3a3737),
-                fontSize: 16,
-                fontWeight: FontWeight.w500),
+
+          title:  DropdownButton<String>(
+            items: <String>['A', 'B', 'C', 'D'].map((String value) {
+              return new DropdownMenuItem<String>(
+                value: value,
+                child: new Text(value),
+              );
+            }).toList(),
+            onChanged: (_) {},
           ),
           brightness: Brightness.light,
           actions: <Widget>[
@@ -39,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-            // Too add widgets
+            // Too pages
               SearchWidget(),
               ShoppingList(),
               ShoppingList(),

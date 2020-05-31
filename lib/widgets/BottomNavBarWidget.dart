@@ -42,9 +42,9 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
           ),
         ),
         BottomNavigationBarItem(
-          icon: Icon(FontAwesomeIcons.user),
+          icon: Icon(FontAwesomeIcons.tools),
           title: Text(
-            'Account, Providers',
+            'Configurations',
             style: TextStyle(color: Color(0xFF2c2b2b)),
           ),
         ),
