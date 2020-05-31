@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
+    String _selectedText = "A";
     @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -21,15 +21,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Color(0xFFFAFAFA),
           elevation: 0,
 
-          title:  DropdownButton<String>(
-            items: <String>['A', 'B', 'C', 'D'].map((String value) {
-              return new DropdownMenuItem<String>(
-                value: value,
-                child: new Text(value),
-              );
-            }).toList(),
-            onChanged: (_) {},
-          ),
+          title:new MyDropDown(),
           brightness: Brightness.light,
           actions: <Widget>[
             IconButton(
@@ -56,3 +48,33 @@ class _HomePageState extends State<HomePage> {
     }
 
   }
+
+
+
+class MyDropDown extends StatefulWidget {
+  const MyDropDown({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _MyDropDownState createState() => _MyDropDownState();
+}
+
+class _MyDropDownState extends State<MyDropDown> {
+  String selected;
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField<String>(
+      value: selected,
+      items: ["A", "B", "C"]
+          .map((label) => DropdownMenuItem(
+        child: Text(label),
+        value: label,
+      ))
+          .toList(),
+      onChanged: (value) {
+        setState(() => selected = value);
+      },
+    );
+  }
+}

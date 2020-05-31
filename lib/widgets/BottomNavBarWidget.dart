@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:prohumanhacks/animations/ScaleRoute.dart';
+import 'package:prohumanhacks/widgets/GroupsProvidersList.dart';
 
 class BottomNavBarWidget extends StatefulWidget {
   @override
@@ -13,7 +15,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     void _onItemTapped(int index) {
       setState(() {
         _selectedIndex = index;
-     //  navigateToScreens(index);
+         navigateToScreens(index);
       });
     }
 
@@ -53,5 +55,13 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
       selectedItemColor: Color(0xFFfd5352),
       onTap: _onItemTapped,
     );
+  }
+
+  void navigateToScreens(int index) {
+    if(index==1){
+      Navigator.push(
+          context,ScaleRoute(page: GroupsProvidersList()));
+    }
+
   }
 }
