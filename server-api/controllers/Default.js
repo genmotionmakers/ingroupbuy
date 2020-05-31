@@ -5,7 +5,8 @@ var Default = require('../service/DefaultService');
 const mongoose = require('mongoose');
 const userSchema = require('../models/users.model');
 const User = mongoose.model('user', userSchema, 'user');
-
+const groupSchema = require('../models/groups.model');
+const Group = mongoose.model('group', groupSchema, 'group');
 
 
 module.exports.calendarEventGET = function calendarEventGET (req, res, next) {
@@ -151,12 +152,55 @@ module.exports.groupsApproveUidGidGET = function groupsApproveUidGidGET (req, re
     });
 };
 
+/*
+* Get distance from coordinates 
+* decimal latitude and longitude in meters
+*/
+function getDistance(lat1,lon1,lat2,lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1); 
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c; // Distance in km
+  d = d * 1000;
+  return d;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}
+
 module.exports.groupsCoordsGET = function groupsCoordsGET (req, res, next) {
   var coords = req.swagger.params['coords'].value;
   Default.groupsCoordsGET(coords)
-    .then(function (response) {
+    .then(async function (response) {
+      let groups = await Group.find();
+      let groups_res = [];
+      //validate input  (long > -180 && long < 180) AND (lat > -90 && lat < 90)
+      const coords_data = coords.split(',');
+      const lat = coords_data[0];
+      const long = coords_data[1];
+      const limit = 2;
+      const min_distance = 5000;
+      
 
-      utils.writeJson(res, response);
+      if((long > -180 && long < 180) && (lat > -90 && lat < 90)){
+         groups_res = groups.map(function(group, index){
+            let coords_data_store = group.coords.split(',');
+            let distance = getDistance(lat,long,coords_data_store[0],coords_data_store[1]);
+            if(index < limit && distance < min_distance){
+              return group;
+            }    
+                  
+          });
+        }
+
+      utils.writeJson(res, groups_res);
     })
     .catch(function (response) {
       utils.writeJson(res, response);
