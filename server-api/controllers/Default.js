@@ -2,6 +2,11 @@
 
 var utils = require('../utils/writer.js');
 var Default = require('../service/DefaultService');
+const mongoose = require('mongoose');
+const userSchema = require('../models/users.model');
+const User = mongoose.model('user', userSchema, 'user');
+
+
 
 module.exports.calendarEventGET = function calendarEventGET (req, res, next) {
   Default.calendarEventGET()
@@ -150,6 +155,7 @@ module.exports.groupsCoordsGET = function groupsCoordsGET (req, res, next) {
   var coords = req.swagger.params['coords'].value;
   Default.groupsCoordsGET(coords)
     .then(function (response) {
+
       utils.writeJson(res, response);
     })
     .catch(function (response) {
@@ -224,13 +230,16 @@ module.exports.userEditIdPUT = function userEditIdPUT (req, res, next) {
 
 module.exports.userGET = function userGET (req, res, next) {
   Default.userGET()
-    .then(function (response) {
-      utils.writeJson(res, response);
+    .then(async function (response) {
+      let users = await User.find();
+      utils.writeJson(res, users);
+      //utils.writeJson(res, response);
     })
     .catch(function (response) {
       utils.writeJson(res, response);
     });
 };
+
 
 module.exports.userIdGET = function userIdGET (req, res, next) {
   var id = req.swagger.params['id'].value;
@@ -256,9 +265,19 @@ module.exports.userSigninPOST = function userSigninPOST (req, res, next) {
 
 module.exports.userSignupPOST = function userSignupPOST (req, res, next) {
   var body = req.swagger.params['body'].value;
+  
   Default.userSignupPOST(body)
-    .then(function (response) {
-      utils.writeJson(res, response);
+    .then(async function (response) {     
+      let users = await User.create(
+        {
+          email: 'mail@mail.com',
+          password: '12345' 
+        }
+      ); 
+      utils.writeJson(res, {
+        hello: "world"
+      });
+      //utils.writeJson(res, response);
     })
     .catch(function (response) {
       utils.writeJson(res, response);

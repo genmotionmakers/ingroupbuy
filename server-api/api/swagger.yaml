@@ -4,7 +4,7 @@ info:
   description: "Descubrir grupos de compras por coordenadas."
   version: "1.0.0"
   title: "InGroupBuy API"
-host: "api.ingroupbuy.com"
+host: "localhost:8080"
 basePath: "/v1"
 schemes:
 - "https"
@@ -104,8 +104,6 @@ paths:
       responses:
         "200":
           description: "Registro exitoso"
-          schema:
-            $ref: "#/definitions/User"
         "400":
           description: "Los datos suministrados son invalidos"
         default:
@@ -802,7 +800,6 @@ definitions:
   User:
     required:
     - "email"
-    - "id"
     - "password"
     properties:
       id:
