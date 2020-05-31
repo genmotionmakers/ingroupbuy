@@ -1,0 +1,906 @@
+---
+swagger: "2.0"
+info:
+  description: "Descubrir grupos de compras por coordenadas."
+  version: "1.0.0"
+  title: "InGroupBuy API"
+host: "api.ingroupbuy.com"
+basePath: "/v1"
+schemes:
+- "https"
+paths:
+  /groups/{coords}:
+    get:
+      summary: "Retorna los grupos de compras de acuerdo con las coordenadas recibidas."
+      operationId: "groupsCoordsGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "coords"
+        in: "path"
+        description: "Coordenadas a buscar."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Listado de grupos cercanos a la posición especificada"
+          schema:
+            $ref: "#/definitions/Group"
+        "400":
+          description: "Las coordenadas especificadas no existen."
+        "404":
+          description: "No se encontraron grupos de compras con las coordenadas especificadas."
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /groups/approve/{uid}/{gid}:
+    get:
+      summary: "Aprobar la solicitud de admisión de un usuario al grupo de compras."
+      operationId: "groupsApproveUidGidGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: "User ID."
+        required: true
+        type: "string"
+      - name: "gid"
+        in: "path"
+        description: "Group ID."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Se confirma la admisión del usuario al grupo establecido."
+          schema:
+            $ref: "#/definitions/inline_response_200"
+        "400":
+          description: "No se encuentra el grupo establecido."
+        "404":
+          description: "No se encuentra el usuario establecido."
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /events/provider_poll/:
+    post:
+      summary: "Servicio para seleccionar los proveedores de la compra."
+      operationId: "eventsProvider_pollPOST"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "provider_poll_data"
+        description: "Poll ID."
+        required: true
+        schema:
+          $ref: "#/definitions/ProviderPollData"
+      responses:
+        "200":
+          description: "Se confirma el registro de su voto."
+          schema:
+            $ref: "#/definitions/inline_response_200_1"
+        "400":
+          description: "No se encuentra el poll establecido."
+        "404":
+          description: "No se encuentra el usuario establecido."
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /user/signup/:
+    post:
+      summary: "Registro usuario"
+      description: "Registro de usuarios para poder unirse a grupos de compras"
+      operationId: "userSignupPOST"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objeto para crear usuario"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "Registro exitoso"
+          schema:
+            $ref: "#/definitions/User"
+        "400":
+          description: "Los datos suministrados son invalidos"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /user/signin/:
+    post:
+      summary: "Inicio de sesión"
+      description: "Iniciar sesión en la plataforma"
+      operationId: "userSigninPOST"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objeto para inicio de sesión"
+        required: true
+        schema:
+          $ref: "#/definitions/Login"
+      responses:
+        "200":
+          description: "Registro exitoso"
+          schema:
+            $ref: "#/definitions/LoginResponse"
+        "400":
+          description: "Los datos suministrados son invalidos"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /user/edit/{id}:
+    put:
+      summary: "Actualizar usuario"
+      description: "Edición de la información de usuario"
+      operationId: "userEditIdPUT"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Objeto para editar usuario"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "Registro editado"
+          schema:
+            $ref: "#/definitions/User"
+        "400":
+          description: "Los datos suministrados son invalidos"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /user/:
+    get:
+      summary: "Lista usuarios"
+      description: "Obtiene un listado de usuarios registrados"
+      operationId: "userGET"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Lista de usuarios"
+          schema:
+            $ref: "#/definitions/User"
+        "404":
+          description: "No se encuentra el recurso"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /user/{id}:
+    get:
+      summary: "Usuario por Id"
+      description: "Obtiene un usuario por id"
+      operationId: "userIdGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Objeto un usuario por Id"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "Usuario"
+          schema:
+            $ref: "#/definitions/User"
+        "404":
+          description: "El usuario no existe"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /envios/calcularprecio/:
+    get:
+      summary: "Calcula el precio del envio a partir del peso y dimensiones"
+      operationId: "enviosCalcularprecioGET"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "calcularpreciodata"
+        description: "Body de calcularprecio"
+        required: true
+        schema:
+          $ref: "#/definitions/CalcularPrecioBody"
+      responses:
+        "200":
+          description: "Calcular datos del precio del shipping de la compra"
+          schema:
+            $ref: "#/definitions/CalcularPrecioData"
+        "404":
+          description: "No se encontró respuesta para los datos solicitados."
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /group/join/:
+    get:
+      summary: "Lista de usuarios asociados a un grupo"
+      description: "Obtiene una lista de usuarios asignados a un grupo"
+      operationId: "groupJoinGET"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Listado de grupos cercanos a la posición especificada"
+          schema:
+            $ref: "#/definitions/RequestShoppingGroup"
+        "400":
+          description: "Las coordenadas especificadas son inválidas."
+        "404":
+          description: "No se encontraron grupos de compras con las coordenadas especificadas."
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+    post:
+      summary: "Solicitud unirse a un grupo"
+      description: "Envia una solicitud para unirse a un grupo de compra"
+      operationId: "groupJoinPOST"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objeto crear la solicitud"
+        required: true
+        schema:
+          $ref: "#/definitions/RequestShoppingGroup"
+      responses:
+        "200":
+          description: "Crea una solicitud para unirse a un grupo de compra"
+          schema:
+            $ref: "#/definitions/RequestShoppingGroup"
+        "400":
+          description: "El grupo no existe, o el usuario no existe."
+        "404":
+          description: ">- EL recurso no existe"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /group/join/{id}:
+    get:
+      summary: "Retorna los grupos de compras de acuerdo con las coordenadas recibidas."
+      operationId: "groupJoinIdGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id del grupo."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Listado de grupos cercanos a la posición especificada"
+          schema:
+            $ref: "#/definitions/RequestShoppingGroup"
+        "400":
+          description: "El grupo no existe, o el usuario no existe."
+        "404":
+          description: ">- EL recurso no existe"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /events/delete/{id}:
+    put:
+      summary: "Disolver evento de compra"
+      description: "Se edita el campo visible del registro establecido"
+      operationId: "eventsDeleteIdPUT"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Objeto evento de compra"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "Registro eliminado"
+          schema:
+            $ref: "#/definitions/inline_response_200_2"
+        "400":
+          description: "El registro no existe."
+        "404":
+          description: ">- EL recurso no existe"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /events/reprogram/:
+    put:
+      summary: "Reprogramar evento de compra"
+      description: "Se edita la fecha del evento establecido"
+      operationId: "eventsReprogramPUT"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "reprogrambody"
+        description: "Objeto evento de compra"
+        required: true
+        schema:
+          $ref: "#/definitions/ReprogramBody"
+      responses:
+        "200":
+          description: "Registro actualizado"
+          schema:
+            $ref: "#/definitions/inline_response_200_3"
+        "400":
+          description: "El registro no existe."
+        "404":
+          description: ">- El recurso no existe"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /events/upcoming/{uid}:
+    get:
+      summary: "Retorna los grupos de compras de acuerdo con las coordenadas recibidas."
+      operationId: "eventsUpcomingUidGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: "Id del usuario."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Listado de próximos eventos de compras"
+          schema:
+            $ref: "#/definitions/Events"
+        "400":
+          description: "El grupo no existe, o el usuario no existe."
+        "404":
+          description: ">- EL recurso no existe"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /providers/:
+    get:
+      summary: "Lista de proveedores"
+      description: "Obtiene un listado de proveedores registrados"
+      operationId: "providersGET"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Lista de proveedores"
+          schema:
+            $ref: "#/definitions/Providers"
+        "404":
+          description: "No hay resultado"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /products/{provider}:
+    get:
+      summary: "Lista de productos"
+      description: "Obtiene un listado de productos registrados por proveedor"
+      operationId: "productsProviderGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "provider"
+        in: "path"
+        description: "Id del proveedor."
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "Lista de productos"
+          schema:
+            $ref: "#/definitions/Products"
+        "404":
+          description: "No hay resultados"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /purchases/:
+    post:
+      summary: "Registrar compra"
+      description: "Se registra una compra que contiene muchos items"
+      operationId: "purchasesPOST"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "RequestPurchasesBody"
+        required: true
+        schema:
+          $ref: "#/definitions/RequestPurchasesBody"
+      responses:
+        "200":
+          description: "Crea un nuevo registro de compra"
+          schema:
+            $ref: "#/definitions/RequestPurchasesResponse"
+        "400":
+          description: "No se encontró el evento de compra"
+        "404":
+          description: "No se encontró el recurso"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /purchases/item/:
+    post:
+      summary: "Registrar item de compra"
+      description: "Se registra un item a una compra"
+      operationId: "purchasesItemPOST"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "RequestItemPurchasesBody"
+        required: true
+        schema:
+          $ref: "#/definitions/RequestItemPurchasesBody"
+      responses:
+        "200":
+          description: "Crea un nuevo registro de compra"
+          schema:
+            $ref: "#/definitions/inline_response_200_4"
+        "404":
+          description: "No se encontró el recurso"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+    delete:
+      summary: "Eliminar item de compra"
+      description: "Se elimina un item de una compra"
+      operationId: "purchasesItemDELETE"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "RequestItemDeleteBody"
+        required: true
+        schema:
+          $ref: "#/definitions/RequestItemDeleteBody"
+      responses:
+        "200":
+          description: "Elimina un item de una compra"
+          schema:
+            $ref: "#/definitions/inline_response_200_5"
+        "404":
+          description: "No se encontró el recurso"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /calendar/event/:
+    get:
+      summary: "Lista de eventos"
+      description: "Obtiene una lista de eventos de decompra"
+      operationId: "calendarEventGET"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Lista eventos"
+          schema:
+            $ref: "#/definitions/Event"
+        "400":
+          description: "Los datos suministrados son invalidos"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+    post:
+      summary: "Evento de compra"
+      description: "Registrar evendo de decompra"
+      operationId: "calendarEventPOST"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objeto para crear evento"
+        required: true
+        schema:
+          $ref: "#/definitions/Event"
+      responses:
+        "200":
+          description: "Registro exitoso"
+          schema:
+            $ref: "#/definitions/Event"
+        "400":
+          description: "Los datos suministrados son invalidos"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+  /calendar/event/{id}:
+    get:
+      summary: "Evento de compra"
+      description: "Registrar evendo de decompra"
+      operationId: "calendarEventIdGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Busca un evento por id"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "{ message: ok }"
+          schema:
+            $ref: "#/definitions/Event"
+        "400":
+          description: "El id suministrado es invalido"
+        "404":
+          description: "Registro no encontrado"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+    put:
+      summary: "Evento de compra"
+      description: "Registrar evendo de decompra"
+      operationId: "calendarEventIdPUT"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Busca un evento por id"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Objeto para editar un evento"
+        required: true
+        schema:
+          $ref: "#/definitions/Event"
+      responses:
+        "200":
+          description: "El registro se edito con exito"
+          schema:
+            $ref: "#/definitions/Event"
+        "400":
+          description: "Los datos suministrados son invalidos"
+        default:
+          description: "Error inesperado"
+      x-swagger-router-controller: "Default"
+definitions:
+  RequestItemDeleteBody:
+    required:
+    - "purchase_id"
+    - "purchase_item_id"
+    properties:
+      purchase_id:
+        type: "integer"
+        description: "Purchase id"
+      purchase_item_id:
+        type: "integer"
+        description: "Purchase item id"
+  RequestItemPurchasesBody:
+    required:
+    - "article_id"
+    - "purchase_id"
+    - "quantity"
+    - "uid"
+    properties:
+      article_id:
+        type: "integer"
+        description: "Purchase item id"
+      purchase_id:
+        type: "integer"
+        description: "Purchase id"
+      uid:
+        type: "integer"
+        description: "user ID"
+      quantity:
+        type: "integer"
+        description: "user ID"
+  RequestPurchasesResponse:
+    required:
+    - "id"
+    properties:
+      id:
+        type: "integer"
+        description: "Purchase id"
+    example:
+      id: 0
+  RequestPurchasesBody:
+    required:
+    - "eid"
+    properties:
+      eid:
+        type: "integer"
+        description: "Event id"
+  Products:
+    required:
+    - "currency"
+    - "id"
+    - "name"
+    - "ppu"
+    - "unit"
+    properties:
+      id:
+        type: "integer"
+        description: "Provider ID"
+      name:
+        type: "string"
+        description: "Brand Name"
+      image:
+        type: "string"
+        description: "Brand Logo"
+      ppu:
+        type: "string"
+        description: "Price per unit of the product"
+      currency:
+        type: "string"
+        description: "Currency unit"
+      unit:
+        type: "string"
+        description: "Measure unit"
+    example:
+      image: "image"
+      unit: "unit"
+      ppu: "ppu"
+      name: "name"
+      currency: "currency"
+      id: 0
+  Providers:
+    required:
+    - "id"
+    - "name"
+    properties:
+      id:
+        type: "integer"
+        description: "Provider ID"
+      name:
+        type: "string"
+        description: "Brand Name"
+      brand_logo:
+        type: "string"
+        description: "Brand Logo"
+    example:
+      name: "name"
+      id: 0
+      brand_logo: "brand_logo"
+  Events:
+    required:
+    - "date"
+    - "id"
+    - "name"
+    properties:
+      id:
+        type: "integer"
+        description: "Event ID"
+      date:
+        type: "string"
+        description: "Event date"
+      name:
+        type: "string"
+        description: "Event name"
+    example:
+      date: "date"
+      name: "name"
+      id: 0
+  Event:
+    required:
+    - "description"
+    - "fecha"
+    - "group_id"
+    - "title"
+    - "user_id"
+    properties:
+      title:
+        type: "string"
+      fecha:
+        type: "string"
+      description:
+        type: "string"
+      group_id:
+        type: "string"
+      user_id:
+        type: "string"
+        description: "organizador"
+    example:
+      fecha: "fecha"
+      group_id: "group_id"
+      user_id: "user_id"
+      description: "description"
+      title: "title"
+  ReprogramBody:
+    required:
+    - "date"
+    - "eid"
+    properties:
+      eid:
+        type: "string"
+        description: "Event ID"
+      date:
+        type: "string"
+        description: "New event date"
+  RequestShoppingGroup:
+    required:
+    - "group_id"
+    - "id"
+    - "user_id"
+    properties:
+      id:
+        type: "string"
+      group_id:
+        type: "string"
+      user_id:
+        type: "string"
+    example:
+      group_id: "group_id"
+      user_id: "user_id"
+      id: "id"
+  Group:
+    required:
+    - "coords"
+    - "distance"
+    - "id"
+    - "name"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      coords:
+        type: "string"
+      distance:
+        type: "integer"
+    example:
+      distance: 6
+      name: "name"
+      id: 0
+      coords: "coords"
+  CalcularPrecioBody:
+    required:
+    - "alto"
+    - "ancho"
+    - "largo"
+    - "peso"
+    properties:
+      peso:
+        type: "integer"
+      largo:
+        type: "string"
+      ancho:
+        type: "string"
+      alto:
+        type: "string"
+  CalcularPrecioData:
+    required:
+    - "currency"
+    - "price"
+    properties:
+      price:
+        type: "string"
+      currency:
+        type: "string"
+    example:
+      price: "price"
+      currency: "currency"
+  ProviderPollData:
+    required:
+    - "poid"
+    - "provid"
+    properties:
+      poid:
+        type: "integer"
+      provid:
+        type: "integer"
+  User:
+    required:
+    - "email"
+    - "id"
+    - "password"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      lastname:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      phone:
+        type: "string"
+      latitud:
+        type: "integer"
+      longitud:
+        type: "integer"
+    example:
+      password: "password"
+      latitud: 0
+      longitud: 6
+      phone: "phone"
+      name: "name"
+      id: "id"
+      email: "email"
+      lastname: "lastname"
+  Login:
+    required:
+    - "email"
+    - "password"
+    properties:
+      email:
+        type: "string"
+        example: "pepito@email.com"
+      password:
+        type: "string"
+        example: "pass12345"
+  LoginResponse:
+    properties:
+      email:
+        type: "string"
+        example: "pepito@email.com"
+      password:
+        type: "string"
+        example: "pass12345"
+      token:
+        type: "string"
+        example: ""
+    example:
+      password: "pass12345"
+      email: "pepito@email.com"
+      token: ""
+  inline_response_200:
+    type: "object"
+    properties:
+      response:
+        type: "string"
+        example: "Se admite al usuario en el grupo establecido"
+    example:
+      response: "Se admite al usuario en el grupo establecido"
+  inline_response_200_1:
+    type: "object"
+    properties:
+      response:
+        type: "string"
+        example: "El usuario ha votado correctamente por el proveedor."
+    example:
+      response: "El usuario ha votado correctamente por el proveedor."
+  inline_response_200_2:
+    type: "object"
+    properties:
+      response:
+        type: "string"
+        example: "El registro ha sido eliminado."
+    example:
+      response: "El registro ha sido eliminado."
+  inline_response_200_3:
+    type: "object"
+    properties:
+      response:
+        type: "string"
+        example: "El registro ha sido actualizado."
+    example:
+      response: "El registro ha sido actualizado."
+  inline_response_200_4:
+    type: "object"
+    properties:
+      response:
+        type: "string"
+        example: "Se ha añadido el item a la compra"
+    example:
+      response: "Se ha añadido el item a la compra"
+  inline_response_200_5:
+    type: "object"
+    properties:
+      response:
+        type: "string"
+        example: "Se ha eliminado el item de la compra"
+    example:
+      response: "Se ha eliminado el item de la compra"
